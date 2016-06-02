@@ -1,0 +1,60 @@
+# Preface
+
+If I say "functional programming video games" to google right now, what comes
+up? Ok let's see. In the arbitrary order that the results actually are in:
+
+- Because functional languages are slow, they might not be suitable for
+video game development.
+- Because games are either imperative, object oriented, or require a huge
+amount of mutable state, functional programming is not suitable.
+- Something called Functional Reactive Programming might be a solution.
+- [John Carmack said something](https://www.youtube.com/watch?feature=player_detailpage&v=Uooh0Y9fC_M#t=4660) about functional programming in video games
+at QuakeCon in 2013.
+- [HaskellWiki](https://wiki.haskell.org/Game_Development) has many links
+to techniques, libraries, and theses on the subject.
+- The blog series [Purely Functional Retrogames](http://prog21.dadgum.com/23.html) ends on a somewhat negative note.
+- Stop-the-world garbage collection can be either a minor annoyance or
+completely unacceptable if it causes rendering latency.
+- Functional programming can be challenging, especially for games, but has
+many benefits nonetheless.
+- Video games require state and side effects, which makes functional programming
+inappropriate.
+
+This is an interesting mixture of results. But one thing is missing entirely.
+Where are finished examples of actual video games that use functional
+programming? While there were several projects mentioned in these results, only
+[one](http://www.indiedb.com/games/nikki-and-the-robots) was a finished,
+playable video game. We have opinions, suggestions, and even a master's thesis,
+but little concrete evidence that it is feasible at all.  Based on this alone,
+we can conclude that functional programming applied to video games is a
+difficult subject to say the least.
+
+To me, most of the "answers" above are really questions. Is performance really
+so much more of a concern for games than other kinds of programs? Is there a
+secret benefit to using C++ besides it's promises of higher performance? Is it
+obvious that side effects, mutation, and object orientation are inherent
+features of game programming, despite the complexities that are introduced by
+them? If so why? Is there a theoretical basis, a reason for the way game
+programming is the way it is? Or is it just an ad hoc accident based on
+deadlines and/or a lack of a better idea? Also, are video games inherently
+different from non-game interactive programs? What sort of thing is an
+interactive program anyway?
+
+FRP is a common suggestion for game programming. And the term FRP is a common
+source of definitional confusion. There's no shortage of FRP implementations:
+Reactive Banana, Netwire, Yampa, Elerea, Sodium, and Reflex are some bigger
+names. There is also no shortage of operational semantics behind all these
+libraries, each one has its own mental model of how the machinery works and how
+the programmer is supposed to interface with it. In reality we have the huge
+question of what all these libraries have in common besides the category name.
+None of them are used in a completed game. Maybe in this blog the details of
+the FRP multiverse can be explored.
+
+But to get to the point, I want to gratuitously breakdown the development
+process of a functional video game. I want to be ultimately precise about what
+sort of thing each thing is, how it could possibly work as a real program
+written with real language. I want to compare and contrast what is going on
+with what a traditional development process would produce. I want to publically
+screw up and then go back and fix things for the better. I want a final product
+that isn't just a proof of concept, but a complete game. I want answers to all
+the questions.
