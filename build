@@ -1,0 +1,9 @@
+set -e
+mkdir -p out
+for fullname in entries/*.txt
+do
+echo "$fullname"
+filename=$(basename "$fullname")
+rawname="${filename%.*}"
+pandoc -s -o "out/$rawname.html" --template templates/default.html "$fullname"
+done
