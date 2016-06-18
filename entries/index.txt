@@ -1,35 +1,32 @@
-This is a blog about developing a full arcade‑style video game using
-Haskell‑grade functional programming. "How do you even do that" is a common
-question on freenode channel #haskell. So common in fact that there is a
-dedicated satellite channel #haskell-game fully stocked with users forever
-thinking about the answer!
+What happens when arcade-style video games meet the esoteric functional
+world of Haskell? Usually nothing! Time to figure out why that is and what
+to do about it. This is a development blog for a game clevery titled Time
+Bandit Clone which I am writing in Haskell.
 
-More than that, this blog is about identifying the essential characteristics
-of video games. What sort of object is the code trying to approximate? Maybe
-the truth is... there isn't really anything there to find! But I doubt it.
-
-I started working on this blog at some point during work on a clone of the old
-arcade‑style shooter [Time Bandit](http://www.atarimania.com/game-atari-st-time-bandit_10622.html).
-The gameplay of Time Bandit is similar to Pac‑Man, but the twist is you can
-shoot the monsters (or the other player) with the hero's trusty missile
-launcher. The goal is to run through each stage while collecting treasures,
-solving puzzles, and ultimately finding the exit before you get overwhelmed by
-weird creatures.  Time Bandit was ported to many ancient computers. The Amiga
-and Atari ST ports released in 1985 had the nicest graphics.
+[Time Bandit](http://www.atarimania.com/game-atari-st-time-bandit_10622.html)
+is an old shooter game for early computers. Its gameplay is a mix between
+Gauntlet and Pac-Man. You're encouraged to continue moving through each
+maze-like level firing missiles at bad guys and collecting treasure. The goal
+in each level is to make it to the exit. You have a choice between 20 "lands"
+with 16 increasingly difficult stages each. An interesting ingredient to Time
+Bandit are the text adventure elements which require the player to interact
+with characters and objects in the style of Zork, by typing simple verb-object
+commands.
 
 ![A medieval location in Time Bandit for Amiga](img/kings-crown.jpg "A medieval location in Time Bandit for Amiga")
 
-Why am I cloning this game? I have no idea. But the following is certain: Time
-Bandit is not turn based, it has smooth animations, it has many interacting
-components and many subtle details. Brute force direct implementation will not
-work. Time Bandit will need a proper language that can adequately express the
-essential structure of the game.
+Time Bandit is not a simple board game or guess-the-number game. It has fast
+scrolling animations and complex interactions between gameplay elements. A
+direct approach to implementing something like this would be brutal, especially
+in Haskell. We have the tools necessary to establish new languages to better
+model solutions to particular problems. But to do this we need to figure out
+the essential structure behind a video game. I hope this blog will be useful
+for documenting this sort of modeling activity.
 
-Even if this experiment fails miserably it should be a fascinating journey into
-the abstract world of video games!
-
-EvanR<br>
-2016-06-17
+Inspiration for this blog comes from [Conal Elliott's blog](http://conal.net/blog/), especially the parts about Functional Reactive
+Programming, and from [Pawel Sobocinski's blog](https://graphicallinearalgebra.net/) about the category theory of linear
+algebra. Both blogs explore abstract objects in a way that's interesting and
+accessible to mere mortals.
 
 ## Posts
 
