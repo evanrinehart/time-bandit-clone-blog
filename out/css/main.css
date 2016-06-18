@@ -1,0 +1,38 @@
+* {
+  font-family: sans-serif;
+  color: #303030;
+}
+
+body {
+  background-color: #F2EDE8;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+.main {
+  padding: 0 20px;
+  width: 32em;
+  margin: 20px auto;
+}
+
+.figure {
+  text-align: center;
+}
+
+img {
+}
+
+.caption {
+  font-size: small;
+  margin-top: 0;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}

@@ -1,0 +1,36 @@
+This is a blog about developing a full arcade‑style video game using
+Haskell‑grade functional programming. "How do you even do that" is a common
+question on freenode channel #haskell. So common in fact that there is a
+dedicated satellite channel #haskell-game fully stocked with users forever
+thinking about the answer!
+
+More than that, this blog is about identifying the essential characteristics
+of video games. What sort of object is the code trying to approximate? Maybe
+the truth is... there isn't really anything there to find! But I doubt it.
+
+I started working on this blog at some point during work on a clone of the old
+arcade‑style shooter [Time Bandit](http://www.atarimania.com/game-atari-st-time-bandit_10622.html).
+The gameplay of Time Bandit is similar to Pac‑Man, but the twist is you can
+shoot the monsters (or the other player) with the hero's trusty missile
+launcher. The goal is to run through each stage while collecting treasures,
+solving puzzles, and ultimately finding the exit before you get overwhelmed by
+weird creatures.  Time Bandit was ported to many ancient computers. The Amiga
+and Atari ST ports released in 1985 had the nicest graphics.
+
+![A medieval location in Time Bandit for Amiga](img/kings-crown.jpg "A medieval location in Time Bandit for Amiga")
+
+Why am I cloning this game? I have no idea. But the following is certain: Time
+Bandit is not turn based, it has smooth animations, it has many interacting
+components and many subtle details. Brute force direct implementation will not
+work. Time Bandit will need a proper language that can adequately express the
+essential structure of the game.
+
+Even if this experiment fails miserably it should be a fascinating journey into
+the abstract world of video games!
+
+EvanR<br>
+2016-06-17
+
+## Posts
+
+- (none)
