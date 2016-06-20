@@ -1,9 +1,13 @@
 set -e
 mkdir -p out
-for fullname in entries/*.txt
+read BLOG_NAME < BLOGNAME
+for FULLNAME in entries/*.txt
 do
-echo "$fullname"
-filename=$(basename "$fullname")
-rawname="${filename%.*}"
-pandoc -s -o "out/$rawname.html" --template templates/default.html "$fullname"
+  FILENAME=$(basename "$FULLNAME")
+  POST_TITLE="${FILENAME%.*}"
+  echo "$FULLNAME -> out/$POST_TITLE.html"
+  pandoc -s -o "out/$POST_TITLE.html" \
+    -Vblog_name=$BLOG_NAME \
+    -Vpost_title=$POST_TITLE \
+    --template templates/default.html "$FULLNAME"
 done

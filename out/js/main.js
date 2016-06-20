@@ -4,18 +4,29 @@ var post_title = document.getElementsByName('post_title')[0].value;
 
 document.addEventListener('DOMContentLoaded', function(e){
   var spinner = document.getElementById('comments-loading-spinner');
+
+  function commentsAreDown(){
+    spinner.remove();
+    var msg = document.getElementById('comments-loading-message');
+    addClass(msg, 'ghost');
+    msg.innerHTML = "comments are down";
+  }
+
+  if(blog_name.trim() == '' || post_title.trim() == ''){
+    commentsAreDown();
+    return;
+  }
+
   fetchComments(blog_name, post_title,
     function(comments){
       spinner.parentElement.remove();
       unhide(document.getElementById('comment-form'));
       populateComments(comments);
+      if(comments.length == 0){
+        document.getElementById('comment-form').children[0].remove();
+      }
     },
-    function(){
-      spinner.remove();
-      var msg = document.getElementById('comments-loading-message');
-      addClass(msg, 'ghost');
-      msg.innerHTML = "comments are down";
-    }
+    commentsAreDown
   );
 });
 
@@ -23,11 +34,12 @@ form.addEventListener('submit', function(e){
   var form = this;
   e.preventDefault();
   if(blog_name.trim() == '' || post_title.trim() == '') return;
+
   var data = {
     email: form.email.value,
     name: form.name.value,
     body: form.body.value,
-    is_bot: form.is_bot.value,
+    is_bot: form.is_bot.checked,
     blog_key: blog_name,
     post_key: post_title
   };
@@ -37,6 +49,12 @@ form.addEventListener('submit', function(e){
   var button = document.getElementById('submit-button');
   var container = document.getElementById('comment-form');
   var message = document.getElementById('comment-submit-message');
+
+  if(form.is_bot.checked){
+    container.innerHTML = '<p class="error">No bots.</p>';
+    return;
+  }
+
   xhr.onreadystatechange = function(){
     if (xhr.readyState == 4) {
       hide(spinner);
@@ -68,8 +86,7 @@ function fetchComments(blog_key, post_key, cb, errorCb){
       else errorCb();
     }
   }
-  //xhr.open('GET', 'http://evanr.info/comments/'+blog_key+'/'+post_key);
-  xhr.open('GET', 'http://localhost:8080/comments/'+blog_key+'/'+post_key);
+  xhr.open('GET', 'http://evanr.info/comments/'+blog_key+'/'+post_key);
   xhr.send(null);
 }
 
@@ -102,7 +119,7 @@ function commentElement(comment){
         '<div class="avatar"><img src="', htmlEncode(comment.avatar_url), '"></div>',
         '<div>',
           '<div class="name">',htmlEncode(comment.name),'</div>',
-          '<div class="date">',htmlEncode(comment.timestamp),'</div>',
+          '<div class="date">',htmlEncode(comment.formatted_date),'</div>',
         '</div>',
       '</div>',
       '<hr>',

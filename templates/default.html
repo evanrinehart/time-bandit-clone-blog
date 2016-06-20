@@ -28,7 +28,7 @@
       </div>
       <div id="comment-form" class="hidden">
         <hr>
-        <form action="http://evanr.info:7777/comments" method="post">
+        <form action="http://evanr.info/comments" method="post">
           <p>
           <label>Email (for verification only)</label>
           <input type="text" name="email" placeholder=""><br>
@@ -54,8 +54,8 @@
           <span id="comment-submit-message" class="hidden error"></span>
           </p>
 
-          <input type="hidden" name="blog_name" value="blog"><br>
-          <input type="hidden" name="post_title" value="post">
+          <input type="hidden" name="blog_name" value="$blog_name$"><br>
+          <input type="hidden" name="post_title" value="$post_title$">
         </form>
       </div>
     </div>
