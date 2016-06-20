@@ -7,6 +7,7 @@
   <meta name="description" content="Time Bandit Clone Blog">
   <meta name="author" content="EvanR">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/loader.css">
 </head>
 
 <body>
@@ -16,6 +17,47 @@
     </div>
     <div class="post-body">
       $body$
+    </div>
+    <hr>
+    <div class="comments-section">
+      <div>
+        <div id="comments-loading-spinner" class="spinner"></div>
+        <span id="comments-loading-message">Loading...</span>
+      </div>
+      <div id="comments-list">
+      </div>
+      <div id="comment-form" class="hidden">
+        <hr>
+        <form action="http://evanr.info:7777/comments" method="post">
+          <p>
+          <label>Email (for verification only)</label>
+          <input type="text" name="email" placeholder=""><br>
+          </p>
+
+          <p>
+          <label>Name</label>
+          <input type="text" name="name" placeholder=""><br>
+          </p>
+
+          <p>
+          <label>Comment</label>
+          <textarea name="body" rows="10"></textarea><br>
+          </p>
+
+          <p>
+          <label class="checkbox">I'm a bot</label><input type="checkbox" name="is_bot" checked="checked"><br>
+          </p>
+
+          <p>
+          <div id="form-spinner" class="hidden spinner"></div>
+          <button id="submit-button" type="submit">Submit</button>
+          <span id="comment-submit-message" class="hidden error"></span>
+          </p>
+
+          <input type="hidden" name="blog_name" value="blog"><br>
+          <input type="hidden" name="post_title" value="post">
+        </form>
+      </div>
     </div>
   </div>
   <script src="js/main.js"></script>

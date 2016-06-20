@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #F2EDE8;
+  background-color: #cac7af;
   margin: 0;
   padding: 0;
 }
@@ -14,9 +14,10 @@ h1 {
 }
 
 .main {
-  padding: 0 20px;
+  padding: 30px;
   width: 32em;
-  margin: 20px auto;
+  margin: 0px auto;
+  background-color: #F2EDE8;
 }
 
 .figure {
@@ -35,4 +36,91 @@ img {
 ul {
   list-style-type: none;
   padding: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #808080;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+input[type="text"] {
+  font-size: 12pt;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #c0c0c0;
+  padding: 5px;
+  background-color: #fafafa;
+}
+
+input[type="checkbox"] {
+  font-size: 12pt;
+  margin-left: 10px;
+}
+
+button {
+  font-size: 12pt;
+  padding: 5px;
+}
+
+textarea {
+  padding: 5px;
+  font-size: 12pt;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #c0c0c0;
+  background-color: #fafafa;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.ghost {
+  color: gray;
+  font-style: italic;
+}
+
+.comment {
+  background-color: #ccccbe;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 3px 3px 0 #79796d;
+}
+
+.comment p { margin: 0; }
+
+.comment .avatar {
+  float: left;
+  margin-right: 10px;
+}
+
+.comment .name {
+  margin-bottom: 3px;
+}
+
+.comment .date {
+  font-size: smaller;
+}
+
+.comment hr {
+  clear: both;
+  margin-top: 15px;
+  margin-bottom: 12px;
+}
+
+label {
+  display: block;
+  margin-bottom: 2px;
+}
+
+label.checkbox {
+  display: inline;
+}
+
+.error {
+  color: #53199a;
+  font-style: italic;
+  font-weight: bold;
 }
