@@ -1,7 +1,7 @@
 set -e
 mkdir -p out
 read BLOG_NAME < BLOGNAME
-for FULLNAME in entries/*.txt
+for FULLNAME in entries/*.md
 do
   FILENAME=$(basename "$FULLNAME")
   POST_TITLE="${FILENAME%.*}"
