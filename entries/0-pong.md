@@ -1,0 +1,246 @@
+# Pong
+
+I tried to start the first post at the beginning. Pong is the famous arcade
+game developed and released in 1972 by Atari, at the time a brand new company.
+However Pong wasn't really that original. Atari (probably) got the idea for
+Pong from Tennis, an earlier game on the [Magnavox Odyssey][1]. Also Atari's
+predecessor Syzygy had an unsuccesful run the year before with a space combat
+arcade machine called [Computer Space][2]. Computer Space itself was based on a
+much older computer game [Spacewar (1962)][3]. Video game history sort of took
+a turn in 1972 rather than beginning there.
+
+![Original Pong Cabinet](http://pongmuseum.com/history/_picts/atari/pong_cabbig-web.jpg){ width=50% }
+
+Believe it or not the special thing about Pong was its gameplay. When players
+went to try Computer Space they wouldn't know how to control the ship. If
+they went so far as to read the instructions, then they would be rewarded with
+a game that was difficult to control or required an understanding of
+incomprehensible laws of physics to predict where the ship's shots would go.
+Pong was by a large margin much more intuitive and attractive to arcade players.
+The majority of Pong machines didn't even have instructions!
+
+I want to look at two aspects of Pong. First, what is this game really? When
+you see the game being played you quickly come to understand how it works.  But
+it's an intuitive understanding. Is there a good way to define the game in
+words? Or math? Secondly, *how does it really work*? How did they make this
+game do its thing?
+
+Maybe this is an exercise in coming up with the right questions to ask. So I'll
+try to reformulate the last two questions in a better way.
+
+- What is the game Pong?
+- What is the implementation of Pong?
+
+Right. "Pong" can refer to the machine itself or it can refer to something
+else. Dr. Hugo Holden, whose [circuit analysis][7] I derived most of the
+following info from, refers to a "ghost in the machine." That's kind of spooky
+so... I will just call it "the game." What's the difference between the game and
+the machine? This is the funny part: you probably know how the game works
+already but not how the machine works. But the machine is a much easier affair
+for me to describe precisely. 
+
+I'll go over both "the game" and the machine, then try to figure out what
+the relationship between the two are.
+
+## How the game works
+
+Pong is a real-time game for two players.
+
+Both players scores start at zero and are displayed on the screen.
+
+Each player has a control knob which determines the vertical position of an
+on-screen bat. 
+
+A ball bounces around the TV screen traveling in a straight line, reflecting
+off the top or bottom of the screen, or off either players bat.
+
+If the ball instead hits the left or right side of the screen, then the
+opposite-side player gets a point.
+
+After scoring and a short delay, the ball is re-served away from the player who
+scored.
+
+Bouncing off the side, off a bat, or scoring triggers one of three different
+short sound effects.
+
+As players successfully deflect the ball, the ball speed will gradually increase
+until it reaches some maximum speed.
+
+The ball speed is reset to minimum after a score or at the start of play.
+
+Once either player reaches a score of 11 the game ends and the game returns to
+"attract mode" which only responds to quarters and just shows the ball bouncing
+around silently forever.
+
+... also there is a dotted line down the center of the screen which represents
+a net but it doesn't interact with anything.
+
+## How the machine works
+
+The machine consists of two potentiometers, a black-and-white TV monitor, a
+coin slot, a speaker, and a crystal tuned to 14.3151 MHz to serve as a clock
+all connected to a network of discrete digital logic integrated circuits (ICs).
+
+Each wire in the network can be "on" or "off". Here's how the ICs are
+connected and for what purpose.
+
+The clock circuit is connected to an array of 4-bit ripple counters which
+output 16 wires. The 16 wires can be understood as the bits of a number that
+counts up at about 7 MHz and wraps around back to zero 60 times per second. The
+first half of these bits represents the horizontal position of the TV scan
+beam, the second half is the vertical position of the beam. This circuit also
+outputs a signal that triggers when the count wraps around, which is fed to the
+TV to get it to syncronize with the circuits clock. This will keep the picture
+from drifting. This circuit also outputs a signal indicating the horizontal
+scan is wrapping around. This will be used in the detection of a missed ball.
+The bits of this "video sync counter" circuit are used for a lot of things and
+so are routed to many other places. They're really the central workhorse behind
+the design.
+
+Each player's potentiometer is connected to its own "bat data" circuit which
+digitizes the pot position in the following way. Each circuit takes as input a
+vertical reset signal to trigger a 555 timer to begin waiting. The wait
+duration depends on the pot position. The lower the player wants the bat, the
+longer the duration. When the time is up, the 555 timer will signal a counter
+to begin counting horizontal resets. While it is counting up, it outputs a
+signal called VPAD1 or VPAD2. When it gets to 15 (the height of the bat), this
+signal stops. VPAD1 and VPAD2, when active, indicates that "vertical scanning
+is within bat 1 or bat 2" respectively. These signals are fed to the "video
+mixer and hit detector" circuit.
+
+3 bits of the bat data counter from each of these circuits (6 total bits) are
+fed to the "vertical velocity encoder". This circuit will determine what
+happens to the balls vertical velocity when it gets hit with a bat. (This part
+of the circuit is actually relevant to the game, since an understanding of the
+vertical velocity encoder can help you make the ball bounce off in the
+direction you want, at least if you're good.) The vertical velocity encoder
+outputs 4 bits (the encoded vertical velocity) which is fed directly to the
+"vertical ball position counter".
+
+The "vertical ball position counter" is a counter that holds the vertical ball
+position.  The counter is triggered by one of the bits from the video sync
+circuit and the increment each time is determined by the 4 bits from the
+vertical velocity encoder.  This circuit outputs 1 signal indicating whether
+the vertical scan is currently overlapping the vertical position of the ball.
+This "vertical scan overlaps ball" (VVID) signal is fed to the "video mixer and
+hit detector" and also back to the vertical velocity encoder (for reversing the
+velocity when it bounces off the top of bottom of the screen).
+
+So far we only mentioned the vertical half of the machinery. That is enough
+to implement bouncing off the top and bottom, but not enough to display a
+ball or detect bat hits or misses. Onward to the horizontal components.
+
+Like the vertical ball position counter there is a "horizontal ball position
+counter" which outputs one signal (HVID) indicating that the horizontal video
+scan overlaps the horizontal position of the ball. The rate of the counter is
+determined by bits from video sync counter (these go pretty much everywhere)
+and from something called the "left / right flip flop". HVID, like VVID, is
+fed to the "video mixer and hit detector". But HVID is also used to detect a
+missed ball by feeding into an AND gate with the horizontal blanking signal.
+The output of this gate is called MISS.
+
+The left / right flip flop outputs two bits which cause the ball to move left
+move right or have no horizontal velocity. It is controlled by the "horizontal
+speed control" counter, which counts bat hits.  As the ball is hit, this
+counter increases to a maximum and [somehow causes the speed of the ball to
+increase]. The left / right flip flop also takes as input the HIT signal, which
+reverses the left / right motion. The HIT signal comes from the "video mixer
+and hit detector".
+
+The video mixer and hit detector takes HVID, VVID, and the two VPAD signals. It
+also uses bits from the horizontal scan count to know if the beam is over the
+horizontal position of bats. Also it takes the NET signal which indicates you
+should show the center net. All of these are essentially ANDed together to get
+one output "on" or "off" indicating black or white for the screen on the
+current beam location. This circuit also outputs the HIT signal by ANDing the
+BALL = HVID AND VVID with the two bat signals. So if the ball would be
+displayed at the same time as a bat, thats a hit! The HIT signal is used to
+reverse horizontal motion of the ball, increase the speed of the ball (see
+"horizontal speed control"), and to start a hit sound effect.
+
+With hits taken care of, what about MISS? As mentioned earlier the HVID
+coinciding with a horizontal reset triggers MISS. MISS is fed to the "score
+counters", the miss sound effect, and the serve delay system. The serve system
+freezes the ball for a short time after a score.
+
+The score counters take the MISS signal and the left / right flip flop to know
+who to attribute the point to. The score counter outputs the score in the form
+of two sets of 4 bits to two "seven segment encoders", and also a GAME STOP
+signal which will trigger when either player reaches 11. GAME STOP is fed to
+the coin slot circuit, which causes the game to enter "attract mode". The
+ATTRACT line is fed to several places in the circuit to alter the behavior of
+the game. For instance sound is muted and missing the ball acts like a bounce.
+The score counter also has a reset input which is triggered when the game
+begins.
+
+The seven segment encoder takes a numeric score, encoded in 4 bits, several
+bits of the video scan count, and outputs "on" or "off" indicating whether the
+score display should show at this location. This final signal is ORed with the
+output of the video-mixer-and-hit-detector circuit to get a final final
+on-or-off for the TV signal.
+
+The coin slot circuit reacts to an inserted coin by clearing the ATTRACT line
+and signalling the score counters to reset. An inserted coin will also begin
+a serve delay and set the left right flip flop to its initial state. This
+circuit has some analog components, such as an antenna which is designed to
+stop "cluey teenagers" from initializing the game with a radio frequency
+signal without paying.
+
+Finally the sound effects for hits, misses, and bounces (off the top or
+bottom). Each of the three sound generators consists of a gate connected to
+one of the video sync bits, which one determines the audio frequency heard.
+Normally the gate blocks these audio signals from being heard, but can be
+unlocked momentarily by the proper pulse (HIT, MISS, or vertical blank
+coinciding with VVID). A slower signal from the video counter restores the
+gates blocking behavior, causing the sounds to only blip momentarily. Yes
+the sound is generated by the video.
+
+(The above descriptions are necessarily simplified to avoid being even more
+ridiculous. For example there are really a dozen different blanking and reset
+signals happening in addition to the video sync counters, but the distinction
+isn't important for this post. Also whenever I said AND gate, it's almost
+certainly a NAND gate. NAND gates are simpler circuits than AND and so many
+digital circuits do everything backwards by convention. Also the horizontal
+speed control counter is being triggered by the hit sound window pulse instead
+of by HIT directly.)
+
+## Analysis
+
+What is the relationship between the game itself and the implementation given
+here?
+
+There are many implementations of the original Pong game. The one described
+here was just the original implementation. You can play essentially the same
+game on [pong-story.com][6]'s side panel. (Of course Dr. Holden will probably
+disagree on this!)
+
+You can implement the same game different ways. This one is a very clever nest
+of digital logic. The one on pong-story.com is probably very clever javascript.
+Indeed Pong designer Allan Alcorn himself is credited with support.
+
+The end user is probably not interested in the implementation, only the game.
+The original customers, whose love of Pong spawned a video game revolution,
+were probably more enthralled by the game Pong rather than the cleverness of
+the circuit. Likewise modern gamers are probably not impressed by millions of
+lines of C++ code developed over the span of several years.
+
+The game description is much simpler than the original implementation. In fact
+there were at least six bugs ranging from timing issues to accidentally swapped
+wires in the original Pong board. Luckily for Atari the effect on gameplay
+wasn't severe enough to derail the deployment of the game. But for many
+projects the risks involved in complex implementations result in loss of
+revenue, or simply being cancelled (or forgotten). Different choices for
+implementation will have different costs and potential for mistake. Do we have
+the resources today to pick safer implementations?
+
+... How about make the implementation language the same as the language used
+for describing the game itself? Sounds ridiculous, I'll do it in the next
+post.
+
+[1]: http://www.pong-story.com/odyssey.htm
+[2]: https://www.youtube.com/watch?v=b3BQsCCwo8w
+[3]: https://en.wikipedia.org/wiki/Spacewar_(video_game)
+[4]: http://pongmuseum.com/history/_picts/atari/pong_cabbig-web.jpg
+[5]: http://pongmuseum.com/faq/
+[6]: http://www.pong-story.com/atpong1.htm
+[7]: http://www.pong-story.com/LAWN_TENNIS.pdf

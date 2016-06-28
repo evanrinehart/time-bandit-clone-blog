@@ -3,10 +3,21 @@
   color: #303030;
 }
 
+p {
+  font-size: 11pt;
+  line-height: 14pt;
+}
+
 body {
   background-color: #cac7af;
   margin: 0;
   padding: 0;
+}
+
+.blog-title h1 {
+  text-align: center;
+  font-size: 32pt;
+  margin-bottom: 30px;
 }
 
 h1 {
@@ -25,6 +36,7 @@ h1 {
 }
 
 img {
+  max-width: 100%;
 }
 
 .caption {
@@ -34,8 +46,10 @@ img {
 }
 
 ul {
-  list-style-type: none;
+  list-style-type: disc;
   padding: 0;
+  margin-left: 18px;
+  font-size: 11pt;
 }
 
 hr {
