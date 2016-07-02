@@ -89,7 +89,7 @@ def(pong, game(
     control(knob)
   ),
   is(horizontalPosition(bat_i), near(side_i)),
-  controls(knob_i, verticalPosition(bat_i)),
+  normalMode(controls(knob_i, verticalPosition(bat_i))),
   decl(ball),
   behavior(ball, either(
     uniformMotion(
