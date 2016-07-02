@@ -62,8 +62,7 @@ Ok! First the reformulated game description.
 - A player scores when, in normal mode, the ball reaches the screen side
   opposite that player.
 - Scoring triggers a score sound.
-- When a player scores, the serve procedure toward the side opposite that
-  player begins.
+- When a player scores, the serve procedure begins (toward the opposite side).
 - When either player's score reaches 11 then attract mode is activated.
 
 Kind of tough but there it is. This time I carefully avoided involving any
