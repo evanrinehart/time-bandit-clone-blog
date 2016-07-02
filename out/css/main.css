@@ -18,6 +18,10 @@ code {
   font-family: monospace;
 }
 
+pre {
+  overflow-x: auto;
+}
+
 .blog-title h1 {
   text-align: center;
   font-size: 32pt;
