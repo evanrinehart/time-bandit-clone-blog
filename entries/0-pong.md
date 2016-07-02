@@ -92,7 +92,7 @@ counts up at about 7 MHz and wraps around back to zero 60 times per second. The
 first half of these bits represents the horizontal position of the TV scan
 beam, the second half is the vertical position of the beam. This circuit also
 outputs a signal that triggers when the count wraps around, which is fed to the
-TV to get it to syncronize with the circuits clock. This will keep the picture
+TV to get it to synchronize with the circuit's clock. This will keep the picture
 from drifting. This circuit also outputs a signal indicating the horizontal
 scan is wrapping around. This will be used in the detection of a missed ball.
 The bits of this "video sync counter" circuit are used for a lot of things and
@@ -210,7 +210,7 @@ counter blocked by a gate unless a pass-window is triggered by an event.
 dozen different blanking and reset signals happening in addition to the video
 sync counters, but the distinction isn't important for this post.  Also
 whenever I said AND gate, it's really a NAND gate. NAND gates are simpler
-circuits than AND and so many digital circuits do everything backwards by
+circuits than AND so many digital circuits do everything backwards by
 convention. Also the horizontal speed control counter is being triggered by the
 hit sound window instead of by HIT directly.)
 
