@@ -6,7 +6,7 @@ do
   FILENAME=$(basename "$FULLNAME")
   POST_TITLE="${FILENAME%.*}"
   echo "$FULLNAME -> out/$POST_TITLE.html"
-  pandoc -s -o "out/$POST_TITLE.html" \
+  pandoc -s --mathjax -o "out/$POST_TITLE.html" \
     -Vblog_name=$BLOG_NAME \
     -Vpost_title=$POST_TITLE \
     --template templates/default.html "$FULLNAME"

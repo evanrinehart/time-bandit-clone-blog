@@ -30,4 +30,5 @@ accessible to mere mortals.
 
 ## Posts
 
-0. [Pong](0-pong.html) 
+0. [Pong](2016-06-25-pong.html) 
+1. [Pongclarative](2016-07-02-pongclarative.html) 
