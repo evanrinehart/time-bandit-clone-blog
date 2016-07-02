@@ -141,6 +141,6 @@ into the syntax tree. Aren't imperative and declarative polar opposite
 concepts? Of course not. But the final verdict on the value of this idea
 will have to wait until we explain what the heck this gibberish means.
 
-... which will have to wait!
+... which will have to wait until the next post!
 
 [1]: https://mitpress.mit.edu/sicp/chapter1/node9.html
