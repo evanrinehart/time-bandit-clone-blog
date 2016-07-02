@@ -105,7 +105,7 @@ def(pong, game(
     sound(reflect(bat), hitSound)
   )
   while(
-    speed(ball) < maxSpeed,
+    lessThan(speed(ball), maxSpeed),
     on(reflect(bat), inc(speed(ball)))
   ),
   def(
