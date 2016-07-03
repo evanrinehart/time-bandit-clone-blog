@@ -76,8 +76,10 @@ placeholders.
 
 ***CRUNCH***
 
+Pong is...
+
 ```
-def(pong, game(
+game(
   modes(normalMode, attractMode),
   button(insertCoin),
   decl(screen, top, bottom, two(side)),
@@ -132,14 +134,14 @@ def(pong, game(
   on(score($side), inc(pointCount(player($side)))),
   on(score($side), serve(oppositeSide($side))),
   on(score($eitherSide) == 11, activateMode(attractMode))
-))
+)
 ```
 
 Gnarly. One potentially unusual thing to notice is I unapologetically used
-imperative language to describe two parts of the game, and then parsed it as-is
-into the syntax tree. Aren't imperative and declarative polar opposite
-concepts? Of course not. But the final verdict on the value of this idea
-will have to wait until we explain what the heck this gibberish means.
+imperative language to describe at least two parts of the game, and then parsed
+it as-is into the syntax tree. Aren't imperative and declarative polar opposite
+concepts? Of course not. But the final verdict on the value of this idea will
+have to wait until we explain what the heck this gibberish means.
 
 ... which will have to wait until the next post!
 
